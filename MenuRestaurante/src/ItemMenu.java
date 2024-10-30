@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// Classe abstrata que representa um item do menu
+//  Classe abstrata que representa um item do menu
 abstract class ItemMenu {
     private String nome;
     private double preco;
@@ -28,6 +28,6 @@ abstract class ItemMenu {
         return ingredientes;
     }
 
-    // Método abstrato a ser sobrescrito pelas subclasses
+    //  Método abstrato a ser sobrescrito pelas subclasses
     public abstract void descrever();
 }

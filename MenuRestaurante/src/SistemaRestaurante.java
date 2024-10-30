@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// Classe principal para testar o sistema
+//  Classe principal para testar o sistema
 public class SistemaRestaurante {
     public static void main(String[] args) {
         List<ItemMenu> menu = new ArrayList<>();
 
-        // Adicionando itens ao menu
+        //  Adicionando itens ao menu
         Prato sushi = new Prato("Sushi de Salmão", 25.50, "Principal");
         sushi.adicionarIngrediente("Arroz");
         sushi.adicionarIngrediente("Salmão");
@@ -28,7 +28,7 @@ public class SistemaRestaurante {
         saque.adicionarIngrediente("Saquê");
         menu.add(saque);
 
-        // Exibindo descrição dos itens do menu (polimorfismo em ação)
+        //  Exibindo descrição dos itens do menu (polimorfismo)
         for (ItemMenu item : menu) {
             item.descrever();
         }

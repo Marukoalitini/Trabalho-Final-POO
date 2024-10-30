@@ -1,4 +1,4 @@
-// Classe Prato que herda de ItemMenu
+//  Classe Prato que herda de ItemMenu
 class Prato extends ItemMenu {
     private String tipoPrato; // Ex: Entrada, Principal, Sobremesa
 
@@ -13,4 +13,3 @@ class Prato extends ItemMenu {
         System.out.println("Ingredientes: " + String.join(", ", getIngredientes()));
     }
 }
-
