@@ -59,7 +59,7 @@ public class Mesa {
             pedido.descreverPedido(); // Chama o método para descrever o pedido
         }
     }
-    public void getValorTotal(){
-        pedido.calcularValorTotal();
+    public double getValorTotal(){
+        return pedido.calcularValorTotal();
     }
 }
