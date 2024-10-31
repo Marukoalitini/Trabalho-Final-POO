@@ -1,6 +1,6 @@
 public class Garcom extends Pessoa{
-    public double salario;
-    public String turno;
+    private double salario;
+    private String turno;
 
 
     public Garcom(String nome, Mesa mesa, double salario, String turno) {
