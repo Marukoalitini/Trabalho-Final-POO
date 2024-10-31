@@ -13,3 +13,4 @@ class Prato extends ItemMenu {
         System.out.println("Ingredientes: " + String.join(", ", getIngredientes()));
     }
 }
+
