@@ -1,6 +1,6 @@
 public class Cliente extends Pessoa{
-    public double conta;
-    public double gorjeta;
+    private double conta;
+    private double gorjeta;
 
 
     public Cliente(String nome, Mesa mesa, double conta, double gorjeta) {
