@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
-
-//  Classe abstrata que representa um item do menu
-abstract class ItemMenu {
+import java.io.Serializable;
+// Classe abstrata que representa um item do menu
+abstract class ItemMenu implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String nome;
     private double preco;
     private List<String> ingredientes = new ArrayList<>();
@@ -28,6 +29,6 @@ abstract class ItemMenu {
         return ingredientes;
     }
 
-    //  Método abstrato a ser sobrescrito pelas subclasses
+    // Método abstrato a ser sobrescrito pelas subclasses
     public abstract void descrever();
 }
