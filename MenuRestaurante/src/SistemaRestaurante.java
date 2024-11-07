@@ -7,7 +7,7 @@ public class SistemaRestaurante {
         List<ItemMenu> menu = new ArrayList<>();
 
         // Adicionando itens ao menu
-        Prato Niguiri = new Prato("Niguiri de Salmão", 25.50, "Principal");
+        Prato Niguiri = new Prato("Niguiri de Salmão", 25.50, TipoPrato.Principal);
         Niguiri.adicionarIngrediente("Arroz");
         Niguiri.adicionarIngrediente("Salmão");
         Niguiri.adicionarIngrediente("Alga");

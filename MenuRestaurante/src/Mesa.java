@@ -36,7 +36,10 @@ public class Mesa {
         pedido = null; // Limpa o pedido ao liberar a mesa
     }
 
-    public void fazerPedido(int id) throws ExcecaoPedidoExiste {
+    public void fazerPedido(int id) throws ExcecaoPedidoExiste, ExcecaoMesaNaoOcupada {
+        if (!ocupada) {
+            throw new ExcecaoMesaNaoOcupada("Mesa não está ocupada.");
+        }
         if (pedido != null) {
             throw new ExcecaoPedidoExiste("Pedido já existe para esta mesa.");
         }
@@ -52,12 +55,13 @@ public class Mesa {
     }
 
     public void descreverMesa() {
-        System.out.println("Mesa: " + numero + " - Capacidade: " + capacidade + " - " + (ocupada ? "Ocupada" : "Disponível"));
+        String status = ocupada ? "Ocupada" : "Disponível";
+        System.out.println("Mesa " + numero + " - Capacidade: " + capacidade + " - Status: " + status);
         if (pedido != null) {
-            System.out.println("Pedido atual:");
-            pedido.descreverPedido(); // Chama o método para descrever o pedido
+            pedido.descreverPedido();
         }
     }
+
 
     public double getValorTotal() {
         return pedido.calcularValorTotal();
