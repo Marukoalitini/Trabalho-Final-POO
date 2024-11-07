@@ -1,12 +1,13 @@
 public class Cliente extends Pessoa{
     private double conta;
     private double gorjeta;
-
+    private Mesa mesa;
 
     public Cliente(String nome, Mesa mesa, double conta, double gorjeta) {
-        super(nome, mesa);
+        super(nome);
         this.conta = conta;
         this.gorjeta = gorjeta;
+        this.mesa = mesa;
     }
 
 
@@ -28,5 +29,13 @@ public class Cliente extends Pessoa{
     }
     public void setGorjeta(double gorjeta) {
         this.gorjeta = gorjeta;
+    }
+
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
     }
 }
