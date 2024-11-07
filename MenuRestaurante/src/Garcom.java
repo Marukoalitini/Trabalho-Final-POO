@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+enum Turno{
+    Manhã, Tarde, Noite
+}
 
 public class Garcom extends Pessoa {
     private double salario;

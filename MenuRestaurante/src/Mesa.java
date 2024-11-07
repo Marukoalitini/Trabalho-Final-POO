@@ -3,6 +3,7 @@ public class Mesa {
     private final int capacidade;
     private boolean ocupada;
     private Pedido pedido;
+    private Garcom garcomResponsavel;
 
     public Mesa(int numero, int capacidade) {
         this.numero = numero;
@@ -27,13 +28,18 @@ public class Mesa {
         return pedido;
     }
 
-    public void reservar() {
+    public void reservar(Garcom garcom) {
         ocupada = true;
+        this.garcomResponsavel = garcom;
     }
 
     public void liberar() {
         ocupada = false;
         pedido = null; // Limpa o pedido ao liberar a mesa
+        garcomResponsavel = null;
+    }
+    public Garcom getGarcomResponsavel() {
+        return garcomResponsavel;
     }
 
     public void fazerPedido(int id) throws ExcecaoPedidoExiste, ExcecaoMesaNaoOcupada {
