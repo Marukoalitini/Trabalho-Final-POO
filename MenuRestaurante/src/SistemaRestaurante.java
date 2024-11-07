@@ -17,9 +17,9 @@ public class SistemaRestaurante {
         while (running) {
             System.out.println("\n--- Menu do Restaurante ---");
             System.out.println("1. Cadastrar Cliente e Associar Mesa");
-            System.out.println("2. Realizar Pedido para Mesa");
-            System.out.println("3. Adicionar Item ao Pedido");
-            System.out.println("4. Exibir Status da Mesa");
+            System.out.println("2. Fazer Pedido");
+            System.out.println("3. Exibir Status da Mesa");
+            System.out.println("4. Encerrar Conta e Liberar Mesa");
             System.out.println("5. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -30,13 +30,13 @@ public class SistemaRestaurante {
                     cadastrarCliente(scanner);
                     break;
                 case 2:
-                    realizarPedido(scanner);
+                    fazerPedido(scanner);
                     break;
                 case 3:
-                    adicionarItemPedido(scanner);
+                    exibirStatusMesa(scanner);
                     break;
                 case 4:
-                    exibirStatusMesa(scanner);
+                    encerrarContaLiberarMesa(scanner);
                     break;
                 case 5:
                     running = false;
@@ -95,17 +95,20 @@ public class SistemaRestaurante {
         System.out.println("Selecione uma mesa para o cliente:");
         for (int i = 0; i < mesas.size(); i++) {
             Mesa mesa = mesas.get(i);
-            System.out.println((i + 1) + ". Mesa " + mesa.getNumero() + " (Capacidade: " + mesa.getCapacidade() + ")");
+            if (!mesa.isOcupada()) {
+                System.out.println((i + 1) + ". Mesa " + mesa.getNumero() + " (Capacidade: " + mesa.getCapacidade() + ")");
+            }
         }
         int mesaEscolha = lerEscolhaMesa(scanner);
 
         if (mesaEscolha > 0 && mesaEscolha <= mesas.size()) {
             Mesa mesaSelecionada = mesas.get(mesaEscolha - 1);
+            mesaSelecionada.reservar(); // Marca a mesa como ocupada
             Cliente cliente = new Cliente(nome, mesaSelecionada, 0, 0);
             clientes.add(cliente);
             System.out.println("Cliente " + nome + " cadastrado na Mesa " + mesaSelecionada.getNumero());
         } else {
-            System.out.println("Mesa inválida.");
+            System.out.println("Mesa inválida ou já ocupada.");
         }
     }
 
@@ -127,41 +130,66 @@ public class SistemaRestaurante {
         return escolha;
     }
 
-    private static void realizarPedido(Scanner scanner) {
+    private static void fazerPedido(Scanner scanner) {
         System.out.print("Digite o número da mesa para realizar o pedido: ");
         int numeroMesa = scanner.nextInt();
 
         Mesa mesa = buscarMesa(numeroMesa);
-        if (mesa != null && !mesa.isOcupada()) {
-            try {
-                mesa.fazerPedido(numeroMesa);
-                mesa.reservar();
-                System.out.println("Pedido realizado para a Mesa " + numeroMesa);
-            } catch (ExcecaoPedidoExiste e) {
-                System.out.println("Erro: " + e.getMessage());
+        if (mesa != null && mesa.isOcupada()) {
+            if (mesa.getPedido() == null) { // Inicializa um novo pedido apenas se ainda não houver um
+                try {
+                    mesa.fazerPedido(numeroMesa); // Cria um novo pedido para a mesa
+                } catch (ExcecaoPedidoExiste e) {
+                    System.out.println("Erro ao criar o pedido: " + e.getMessage());
+                    return;
+                }
+            }
+
+            boolean adicionando = true;
+            while (adicionando) {
+                System.out.println("Escolha o tipo de item:");
+                System.out.println("1. Bebida");
+                System.out.println("2. Prato");
+                System.out.println("3. Finalizar Pedido");
+                int opcaoItem = scanner.nextInt();
+
+                switch (opcaoItem) {
+                    case 1:
+                        mostrarMenuItens(scanner, mesa, "bebida");
+                        break;
+                    case 2:
+                        mostrarMenuItens(scanner, mesa, "prato");
+                        break;
+                    case 3:
+                        adicionando = false;
+                        System.out.println("Pedido finalizado para a Mesa " + numeroMesa);
+                        break;
+                    default:
+                        System.out.println("Opção inválida. Tente novamente.");
+                        break;
+                }
             }
         } else {
-            System.out.println("Mesa inválida ou já ocupada.");
+            System.out.println("Mesa inválida ou não está ocupada.");
         }
     }
 
-    private static void adicionarItemPedido(Scanner scanner) {
-        System.out.print("Digite o número da mesa para adicionar item: ");
-        int numeroMesa = scanner.nextInt();
-
-        Mesa mesa = buscarMesa(numeroMesa);
-        if (mesa != null && mesa.getPedido() != null) {
-            System.out.println("Selecione um item do menu para adicionar ao pedido:");
-            for (int i = 0; i < menu.size(); i++) {
-                ItemMenu item = menu.get(i);
-                System.out.println((i + 1) + ". " + item.getNome() + " - R$ " + item.getPreco());
+    private static void mostrarMenuItens(Scanner scanner, Mesa mesa, String tipo) {
+        System.out.println("Selecione um " + tipo + " do menu para adicionar ao pedido:");
+        int itemNum = 1;
+        for (ItemMenu item : menu) {
+            if ((tipo.equals("bebida") && item instanceof Bebida) || (tipo.equals("prato") && item instanceof Prato)) {
+                System.out.println(itemNum + ". " + item.getNome() + " - R$ " + item.getPreco());
             }
-            int itemEscolha = lerEscolhaItemMenu(scanner);
+            itemNum++;
+        }
+        int itemEscolha = lerEscolhaItemMenu(scanner);
+        if (itemEscolha > 0 && itemEscolha <= menu.size()) {
             ItemMenu itemSelecionado = menu.get(itemEscolha - 1);
             mesa.pedirItem(itemSelecionado);
             System.out.println("Item " + itemSelecionado.getNome() + " adicionado ao pedido.");
         } else {
-            System.out.println("Mesa inválida ou sem pedido realizado.");
+            System.out.println("Item inválido.");
         }
     }
 
@@ -192,6 +220,24 @@ public class SistemaRestaurante {
             mesa.descreverMesa();
         } else {
             System.out.println("Mesa inválida.");
+        }
+    }
+
+    private static void encerrarContaLiberarMesa(Scanner scanner) {
+        System.out.print("Digite o número da mesa para encerrar a conta: ");
+        int numeroMesa = scanner.nextInt();
+
+        Mesa mesa = buscarMesa(numeroMesa);
+        if (mesa != null && mesa.isOcupada()) {
+            if (mesa.getPedido() != null) { // Verifica se há um pedido antes de calcular o valor
+                System.out.println("Total a pagar: R$ " + mesa.getValorTotal());
+                mesa.liberar(); // Libera a mesa
+                System.out.println("Conta encerrada. Mesa " + numeroMesa + " agora está disponível.");
+            } else {
+                System.out.println("Nenhum pedido foi feito para esta mesa.");
+            }
+        } else {
+            System.out.println("Mesa inválida ou não está ocupada.");
         }
     }
 
