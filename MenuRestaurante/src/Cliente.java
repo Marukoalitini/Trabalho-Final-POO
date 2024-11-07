@@ -1,6 +1,7 @@
 public class Cliente extends Pessoa{
     private double conta;
     private double gorjeta;
+    private Pedido pedido = new Pedido();
 
 
     public Cliente(String nome, Mesa mesa, double conta, double gorjeta) {
@@ -10,9 +11,26 @@ public class Cliente extends Pessoa{
     }
 
 
+    public void adicionarItemPedido(ItemMenu item) {
+        pedido.adicionarItem(item);
+        atualizarConta();
+    }
+
+
+    public void atualizarConta() {
+        this.conta = pedido.calcularValorTotal();
+    }
+
+
+    public void incluirGorjeta (double valorGrojeta) {
+        this.gorjeta = valorGrojeta;
+    }
+
+
     public void pagarConta() { // Método para pagar conta
         conta = 0;
         gorjeta = 0;
+        pedido = new Pedido(int id);
     }
 
 
