@@ -36,12 +36,11 @@ public class Mesa {
         pedido = null; // Limpa o pedido ao liberar a mesa
     }
 
-    public void fazerPedido(Pedido novoPedido) {
-        if (pedido == null) {
-            this.pedido = novoPedido;
-        } else {
-            System.out.println("Pedido já existe.");
+    public void fazerPedido(int id) throws ExcecaoPedidoExiste {
+        if (pedido != null) {
+            throw new ExcecaoPedidoExiste("Pedido já existe para esta mesa.");
         }
+        this.pedido = new Pedido(id);
     }
 
     public void pedirItem(ItemMenu item) {
@@ -59,7 +58,8 @@ public class Mesa {
             pedido.descreverPedido(); // Chama o método para descrever o pedido
         }
     }
-    public void getValorTotal(){
-        pedido.calcularValorTotal();
+
+    public double getValorTotal() {
+        return pedido.calcularValorTotal();
     }
 }

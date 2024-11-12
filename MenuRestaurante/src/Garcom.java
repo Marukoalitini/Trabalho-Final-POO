@@ -41,7 +41,7 @@ public class Garcom extends Pessoa{
 
 
     public void status() {
-        System.out.println("Garçom " + nome + " responsável pela mesa: " + mesa);
+        System.out.println("Garçom " + getNome() + " responsável pela mesa: " + getMesa());
         System.out.println("Salário: " + salario);
         System.out.println("Turno(s): " + turno);
     }
