@@ -1,8 +1,12 @@
-// Classe Prato que herda de ItemMenu
-class Prato extends ItemMenu {
-    private String tipoPrato; // Ex: Entrada, Principal, Sobremesa
+enum TipoPrato {
+    Entrada, Principal, Sobremesa;
+}
 
-    public Prato(String nome, double preco, String tipoPrato) {
+//  Classe Prato que herda de ItemMenu
+class Prato extends ItemMenu {
+    private TipoPrato tipoPrato; // Ex: Entrada, Principal, Sobremesa
+
+    public Prato(String nome, double preco, TipoPrato tipoPrato) {
         super(nome, preco);
         this.tipoPrato = tipoPrato;
     }
@@ -13,4 +17,3 @@ class Prato extends ItemMenu {
         System.out.println("Ingredientes: " + String.join(", ", getIngredientes()));
     }
 }
-

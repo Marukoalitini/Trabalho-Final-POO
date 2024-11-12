@@ -1,4 +1,4 @@
-// Classe Bebida que herda de ItemMenu
+//  Classe Bebida que herda de ItemMenu
 class Bebida extends ItemMenu {
     private boolean alcoolica;
 
