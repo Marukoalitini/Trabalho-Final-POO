@@ -1,36 +1,19 @@
 public class Cliente extends Pessoa{
     private double conta;
     private double gorjeta;
-    private Pedido pedido = new Pedido();
-
+    private Mesa mesa;
 
     public Cliente(String nome, Mesa mesa, double conta, double gorjeta) {
-        super(nome, mesa);
+        super(nome);
         this.conta = conta;
         this.gorjeta = gorjeta;
-    }
-
-
-    public void adicionarItemPedido(ItemMenu item) {
-        pedido.adicionarItem(item);
-        atualizarConta();
-    }
-
-
-    public void atualizarConta() {
-        this.conta = pedido.calcularValorTotal();
-    }
-
-
-    public void incluirGorjeta (double valorGrojeta) {
-        this.gorjeta = valorGrojeta;
+        this.mesa = mesa;
     }
 
 
     public void pagarConta() { // Método para pagar conta
         conta = 0;
         gorjeta = 0;
-        pedido = new Pedido(int id);
     }
 
 
@@ -46,5 +29,13 @@ public class Cliente extends Pessoa{
     }
     public void setGorjeta(double gorjeta) {
         this.gorjeta = gorjeta;
+    }
+
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
     }
 }
