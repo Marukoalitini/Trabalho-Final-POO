@@ -36,49 +36,43 @@ public class SistemaRestaurante {
         }
     }
 
-    private static int lerOpcao(Scanner scanner, int maxOpcao) {
+    private static void areaDeCadastramento(Scanner scanner) {
         while (true) {
-            try {
-                int opcao = scanner.nextInt();
-                if (opcao >= 1 && opcao <= maxOpcao) return opcao;
-                System.out.print("Escolha entre 1 e " + maxOpcao + ": ");
-            } catch (InputMismatchException e) {
-                System.out.print("Digite um número: ");
-                scanner.next();
+            System.out.println("\n--- Área de Cadastramento ---");
+            System.out.println("1. Nova Mesa");
+            System.out.println("2. Nova Bebida");
+            System.out.println("3. Novo Prato");
+            System.out.println("4. Novo Garçom");
+            System.out.println("5. Voltar ao Menu Principal");
+            int opcao = lerOpcao(scanner, 5);
+
+            switch (opcao) {
+                case 1 -> cadastrarNovaMesa(scanner);
+                case 2 -> cadastrarNovaBebida(scanner);
+                case 3 -> cadastrarNovoPrato(scanner);
+                case 4 -> cadastrarNovoGarcom(scanner);
+                case 5 -> { return; }
             }
         }
     }
 
-    private static void setupMenu() {
-        menu.add(new Prato("Niguiri de Salmão", 25.50, TipoPrato.Principal));
-        menu.add(new Bebida("Chá Verde", 8.00, false));
-        mesas.add(new Mesa(1, 4));
-        garcons.add(new Garcom("Carlos", 1500, Turno.Noite));
-    }
-
-    private static void areaDeCadastramento(Scanner scanner) {
-        System.out.println("\n--- Área de Cadastramento ---");
-        System.out.println("1. Nova Mesa\n2. Nova Bebida\n3. Novo Prato\n4. Novo Garçom\n5. Voltar");
-        int opcao = lerOpcao(scanner, 5);
-
-        switch (opcao) {
-            case 1 -> cadastrarNovaMesa(scanner);
-            case 2 -> cadastrarNovaBebida(scanner);
-            case 3 -> cadastrarNovoPrato(scanner);
-            case 4 -> cadastrarNovoGarcom(scanner);
-        }
-    }
-
     private static void areaDeExclusao(Scanner scanner) {
-        System.out.println("\n--- Área de Exclusão ---");
-        System.out.println("1. Excluir Mesa\n2. Excluir Bebida\n3. Excluir Prato\n4. Excluir Garçom\n5. Voltar");
-        int opcao = lerOpcao(scanner, 5);
+        while (true) {
+            System.out.println("\n--- Área de Exclusão ---");
+            System.out.println("1. Excluir Mesa");
+            System.out.println("2. Excluir Bebida");
+            System.out.println("3. Excluir Prato");
+            System.out.println("4. Excluir Garçom");
+            System.out.println("5. Voltar ao Menu Principal");
+            int opcao = lerOpcao(scanner, 5);
 
-        switch (opcao) {
-            case 1 -> excluirMesa(scanner);
-            case 2 -> excluirBebida(scanner);
-            case 3 -> excluirPrato(scanner);
-            case 4 -> excluirGarcom(scanner);
+            switch (opcao) {
+                case 1 -> excluirMesa(scanner);
+                case 2 -> excluirBebida(scanner);
+                case 3 -> excluirPrato(scanner);
+                case 4 -> excluirGarcom(scanner);
+                case 5 -> { return; }
+            }
         }
     }
 
@@ -127,18 +121,17 @@ public class SistemaRestaurante {
 
         System.out.print("Tipo (Entrada/Principal/Sobremesa): ");
         String tipo = scanner.next();
-        while(!Objects.equals(tipo, "Entrada") && !Objects.equals(tipo, "Principal") && !Objects.equals(tipo, "Sobremesa")){
+        while (!Objects.equals(tipo, "Entrada") && !Objects.equals(tipo, "Principal") && !Objects.equals(tipo, "Sobremesa")) {
             System.out.println("Insira um tipo válido: Entrada, Principal, Sobremesa");
             System.out.print("Tipo: ");
             tipo = scanner.next();
         }
         TipoPrato tipoCorrigido;
-        if (Objects.equals(tipo, "Entrada")){
+        if (Objects.equals(tipo, "Entrada")) {
             tipoCorrigido = TipoPrato.Entrada;
         } else if (Objects.equals(tipo, "Principal")) {
             tipoCorrigido = TipoPrato.Principal;
-        }
-        else{
+        } else {
             tipoCorrigido = TipoPrato.Sobremesa;
         }
 
@@ -152,27 +145,29 @@ public class SistemaRestaurante {
         String nome = scanner.next();
 
         double salario = lerNumeroDecimal(scanner, "Salário: ");
-        System.out.println("Turnos: Manhã, Tarde, Noite");
-        System.out.print("Turno: ");
-        String turno = scanner.next();
-        while(!Objects.equals(turno, "Manhã") && !Objects.equals(turno, "Tarde") && !Objects.equals(turno, "Noite")){
-            System.out.println("Insira um turno válido: Manhã, Tarde, Noite");
-            System.out.print("Turno: ");
-            turno = scanner.next();
-        }
-        Turno turnoCorrigido;
-        if (Objects.equals(turno, "Manhã")){
-            turnoCorrigido = Turno.Manhã;
-        } else if (Objects.equals(turno, "Tarde")) {
-            turnoCorrigido = Turno.Tarde;
-        }
-        else{
-            turnoCorrigido = Turno.Noite;
-        }
 
-        Garcom garcom = new Garcom(nome, salario, turnoCorrigido);
+        Turno turno = selecionarTurno(scanner);
+
+        Garcom garcom = new Garcom(nome, salario, turno);
         garcons.add(garcom);
         System.out.println("Novo garçom cadastrado com sucesso.");
+    }
+
+    private static Turno selecionarTurno(Scanner scanner) {
+        while (true) {
+            System.out.println("Selecione o turno do garçom:");
+            System.out.println("1. Manhã");
+            System.out.println("2. Tarde");
+            System.out.println("3. Noite");
+            int opcao = lerOpcao(scanner, 3);
+
+            switch (opcao) {
+                case 1 -> { return Turno.Manhã; }
+                case 2 -> { return Turno.Tarde; }
+                case 3 -> { return Turno.Noite; }
+                default -> System.out.println("Opção inválida. Escolha entre 1 e 3.");
+            }
+        }
     }
 
     private static void excluirMesa(Scanner scanner) {
@@ -218,19 +213,25 @@ public class SistemaRestaurante {
     private static void cadastrarCliente(Scanner scanner) {
         System.out.print("Nome do cliente: ");
         String nome = scanner.next();
-        System.out.println("Selecione uma mesa:");
-        for (int i = 0; i < mesas.size(); i++)
-            if (!mesas.get(i).isOcupada())
+
+        System.out.println("Escolha uma mesa para associar:");
+        for (int i = 0; i < mesas.size(); i++) {
+            if (!mesas.get(i).isOcupada()) {
                 System.out.println((i + 1) + ". Mesa " + mesas.get(i).getNumero());
+            }
+        }
         int mesaEscolha = lerOpcao(scanner, mesas.size());
-        System.out.println("Selecione um garçom:");
-        for (int i = 0; i < garcons.size(); i++)
-            System.out.println((i + 1) + ". " + garcons.get(i).getNome());
-        int garcomEscolha = lerOpcao(scanner, garcons.size());
         Mesa mesa = mesas.get(mesaEscolha - 1);
+
+        System.out.println("Escolha um garçom:");
+        for (int i = 0; i < garcons.size(); i++) {
+            System.out.println((i + 1) + ". " + garcons.get(i).getNome());
+        }
+        int garcomEscolha = lerOpcao(scanner, garcons.size());
         Garcom garcom = garcons.get(garcomEscolha - 1);
+
         mesa.reservar(garcom);
-        System.out.println("Cliente " + nome + " cadastrado na Mesa " + mesa.getNumero() + " com garçom " + garcom.getNome());
+        System.out.println("Cliente " + nome + " associado à mesa " + mesa.getNumero());
     }
 
     private static void fazerPedido(Scanner scanner) {
@@ -238,23 +239,52 @@ public class SistemaRestaurante {
         for (int i = 0; i < mesas.size(); i++) {
             System.out.println((i + 1) + ". Mesa " + mesas.get(i).getNumero());
         }
-        int mesaEscolha = lerOpcao(scanner, mesas.size());
-        Mesa mesa = mesas.get(mesaEscolha - 1);
+        System.out.println((mesas.size() + 1) + ". Voltar ao Menu Principal");
 
+        int mesaEscolha = lerOpcao(scanner, mesas.size() + 1);
+        if (mesaEscolha == mesas.size() + 1) return;
+
+        Mesa mesa = mesas.get(mesaEscolha - 1);
         if (!mesa.isOcupada()) {
             System.out.println("Mesa está vazia. Associe um cliente antes de fazer um pedido.");
             return;
         }
 
-        System.out.println("Escolha um item do menu para adicionar ao pedido:");
-        for (int i = 0; i < menu.size(); i++) {
-            System.out.println((i + 1) + ". " + menu.get(i).getNome() + " - R$ " + menu.get(i).getPreco());
-        }
-        int itemEscolha = lerOpcao(scanner, menu.size());
-        ItemMenu item = menu.get(itemEscolha - 1);
+        while (true) {
+            System.out.println("\nEscolha o tipo de item para adicionar ao pedido:");
+            System.out.println("1. Bebida\n2. Prato\n3. Voltar ao Menu Principal");
+            int tipoItem = lerOpcao(scanner, 3);
 
-        mesa.pedirItem(item);
-        System.out.println("Item " + item.getNome() + " adicionado ao pedido.");
+            if (tipoItem == 3) return;
+
+            List<ItemMenu> itensDisponiveis = new ArrayList<>();
+            if (tipoItem == 1) {
+                System.out.println("\n--- Bebidas Disponíveis ---");
+                for (ItemMenu item : menu) {
+                    if (item instanceof Bebida) {
+                        itensDisponiveis.add(item);
+                        System.out.println(itensDisponiveis.size() + ". " + item.getNome() + " - R$ " + item.getPreco());
+                    }
+                }
+            } else if (tipoItem == 2) {
+                System.out.println("\n--- Pratos Disponíveis ---");
+                for (ItemMenu item : menu) {
+                    if (item instanceof Prato) {
+                        itensDisponiveis.add(item);
+                        System.out.println(itensDisponiveis.size() + ". " + item.getNome() + " - R$ " + item.getPreco());
+                    }
+                }
+            }
+
+            System.out.println((itensDisponiveis.size() + 1) + ". Voltar ao Menu Principal");
+
+            int itemEscolha = lerOpcao(scanner, itensDisponiveis.size() + 1);
+            if (itemEscolha == itensDisponiveis.size() + 1) return;
+
+            ItemMenu itemEscolhido = itensDisponiveis.get(itemEscolha - 1);
+            mesa.pedirItem(itemEscolhido);
+            System.out.println("Item " + itemEscolhido.getNome() + " adicionado ao pedido.");
+        }
     }
 
     private static void exibirStatusMesa(Scanner scanner) {
@@ -262,7 +292,11 @@ public class SistemaRestaurante {
         for (int i = 0; i < mesas.size(); i++) {
             System.out.println((i + 1) + ". Mesa " + mesas.get(i).getNumero());
         }
-        int mesaEscolha = lerOpcao(scanner, mesas.size());
+        System.out.println((mesas.size() + 1) + ". Voltar ao Menu Principal");
+
+        int mesaEscolha = lerOpcao(scanner, mesas.size() + 1);
+        if (mesaEscolha == mesas.size() + 1) return;
+
         Mesa mesa = mesas.get(mesaEscolha - 1);
 
         if (!mesa.isOcupada()) {
@@ -290,7 +324,11 @@ public class SistemaRestaurante {
         for (int i = 0; i < mesas.size(); i++) {
             System.out.println((i + 1) + ". Mesa " + mesas.get(i).getNumero());
         }
-        int mesaEscolha = lerOpcao(scanner, mesas.size());
+        System.out.println((mesas.size() + 1) + ". Voltar ao Menu Principal");
+
+        int mesaEscolha = lerOpcao(scanner, mesas.size() + 1);
+        if (mesaEscolha == mesas.size() + 1) return;
+
         Mesa mesa = mesas.get(mesaEscolha - 1);
 
         if (!mesa.isOcupada()) {
@@ -304,13 +342,14 @@ public class SistemaRestaurante {
         System.out.println("Mesa " + mesa.getNumero() + " foi liberada.");
     }
 
-    // Funções utilitárias para leitura de números
-    private static int lerNumeroInteiro(Scanner scanner) {
+    private static int lerOpcao(Scanner scanner, int maxOpcao) {
         while (true) {
             try {
-                return scanner.nextInt();
+                int opcao = scanner.nextInt();
+                if (opcao >= 1 && opcao <= maxOpcao) return opcao;
+                System.out.print("Escolha entre 1 e " + maxOpcao + ": ");
             } catch (InputMismatchException e) {
-                System.out.print("Digite um número válido: ");
+                System.out.print("Digite um número: ");
                 scanner.next();
             }
         }
@@ -328,4 +367,21 @@ public class SistemaRestaurante {
         }
     }
 
+    private static int lerNumeroInteiro(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.print("Digite um número válido: ");
+                scanner.next();
+            }
+        }
+    }
+
+    private static void setupMenu() {
+        menu.add(new Prato("Niguiri de Salmão", 25.50, TipoPrato.Principal));
+        menu.add(new Bebida("Chá Verde", 8.00, false));
+        mesas.add(new Mesa(1, 4));
+        garcons.add(new Garcom("Carlos", 1500, Turno.Noite));
+    }
 }
