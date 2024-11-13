@@ -21,7 +21,9 @@ public class Pedido {
         }
         return total;
     }
-
+    public ArrayList<ItemMenu> getItens(){
+        return itens;
+    }
     public void descreverPedido() {
         System.out.println("Pedido ID: " + id);
         for (ItemMenu item : itens) {

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Mesa {
     private final int numero;
     private final int capacidade;
@@ -69,7 +71,11 @@ public class Mesa {
     }
 
 
-    public double getValorTotal() {
+    public double getTotalConta() {
         return pedido.calcularValorTotal();
+    }
+
+    public ArrayList<ItemMenu> getItensPedido() {
+        return pedido.getItens();
     }
 }
