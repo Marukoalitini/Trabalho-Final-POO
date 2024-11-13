@@ -1,11 +1,9 @@
 public class Pessoa {
-    private Mesa mesa;
     private String nome;
 
 
-    public Pessoa (String nome, Mesa mesa) {
+    public Pessoa (String nome) {
         this.nome = nome;
-        this.mesa = mesa;
     }
 
 
@@ -16,11 +14,4 @@ public class Pessoa {
         this.nome = nome;
     }
 
-
-    public Mesa getMesa() {
-        return mesa;
-    }
-    public void setMesa(Mesa mesa) {
-        this.mesa = mesa;
-    }
 }
