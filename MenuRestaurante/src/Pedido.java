@@ -11,7 +11,7 @@ public class Pedido {
 
     public void adicionarItem(ItemMenu item) {
         itens.add(item);
-        System.out.println("Item "+ item + "adicionado.");
+        System.out.println("Item " + item.getNome() + " adicionado.");
     }
 
     public double calcularValorTotal() {
@@ -21,14 +21,21 @@ public class Pedido {
         }
         return total;
     }
-    public ArrayList<ItemMenu> getItens(){
+
+    public ArrayList<ItemMenu> getItens() {
         return itens;
     }
+
     public void descreverPedido() {
         System.out.println("Pedido ID: " + id);
         for (ItemMenu item : itens) {
             item.descrever();
         }
         System.out.println("Valor Total: R$ " + calcularValorTotal());
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido ID: " + id + ", Itens: " + itens.size() + ", Valor Total: R$ " + calcularValorTotal();
     }
 }

@@ -40,6 +40,7 @@ public class Mesa {
         pedido = null; // Limpa o pedido ao liberar a mesa
         garcomResponsavel = null;
     }
+
     public Garcom getGarcomResponsavel() {
         return garcomResponsavel;
     }
@@ -55,10 +56,13 @@ public class Mesa {
     }
 
     public void pedirItem(ItemMenu item) {
-        if (ocupada && pedido != null) {
+        if (ocupada) {
+            if (pedido == null) {
+                this.pedido = new Pedido(1); // Inicializa o pedido com um ID padrão se não existir
+            }
             pedido.adicionarItem(item);
         } else {
-            System.out.println("Mesa não está ocupada ou não há pedido.");
+            System.out.println("Mesa não está ocupada.");
         }
     }
 
@@ -67,15 +71,22 @@ public class Mesa {
         System.out.println("Mesa " + numero + " - Capacidade: " + capacidade + " - Status: " + status);
         if (pedido != null) {
             pedido.descreverPedido();
+        } else {
+            System.out.println("Nenhum pedido foi feito para esta mesa.");
         }
     }
 
-
     public double getTotalConta() {
+        if (pedido == null) {
+            return 0.0;
+        }
         return pedido.calcularValorTotal();
     }
 
     public ArrayList<ItemMenu> getItensPedido() {
+        if (pedido == null) {
+            return new ArrayList<>(); // Retorna uma lista vazia se o pedido for null
+        }
         return pedido.getItens();
     }
 }

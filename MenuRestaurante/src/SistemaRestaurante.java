@@ -272,11 +272,16 @@ public class SistemaRestaurante {
 
         System.out.println("\n--- Status da Mesa " + mesa.getNumero() + " ---");
         System.out.println("Garçom Responsável: " + (mesa.getGarcomResponsavel() != null ? mesa.getGarcomResponsavel().getNome() : "Nenhum"));
-        System.out.println("Itens do Pedido:");
-        
-        for (ItemMenu item : mesa.getItensPedido()) {
-            System.out.println("- " + item.getNome() + " - R$ " + item.getPreco());
+
+        if (mesa.getItensPedido() == null || mesa.getItensPedido().isEmpty()) {
+            System.out.println("Nenhum item foi adicionado ao pedido.");
+        } else {
+            System.out.println("Itens do Pedido:");
+            for (ItemMenu item : mesa.getItensPedido()) {
+                System.out.println("- " + item.getNome() + " - R$ " + item.getPreco());
+            }
         }
+
         System.out.println("Total acumulado: R$ " + mesa.getTotalConta());
     }
 
