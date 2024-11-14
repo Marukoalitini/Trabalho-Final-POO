@@ -20,7 +20,7 @@ public class SistemaRestaurante {
             System.out.println("7. Exibir Ganhos do Garçom");
             System.out.println("8. Sair");
             System.out.print("Escolha uma opção: ");
-            int opcao = lerOpcao(scanner, 7);
+            int opcao = lerOpcao(scanner, 8);
 
             switch (opcao) {
                 case 1 -> areaDeCadastramento(scanner);
@@ -33,6 +33,9 @@ public class SistemaRestaurante {
                 case 8 -> {
                     System.out.println("Encerrando sistema.");
                     return;
+                }
+                default -> {
+                    System.out.println("Insira uma opção válida.");
                 }
             }
         }
@@ -56,6 +59,7 @@ public class SistemaRestaurante {
                 case 5 -> {
                     return;
                 }
+
             }
         }
     }
