@@ -69,4 +69,12 @@ class Mesa {
         }
         return pedido.getItens();
     }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void descreverMesa() {
+        
+    }
 }

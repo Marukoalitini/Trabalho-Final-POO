@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExcecaoMesaNaoOcupada {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Garcom> garcons = new ArrayList<>();
         ArrayList<Mesa> mesas = new ArrayList<>();
@@ -74,7 +74,7 @@ public class Menu {
                     try {
                         mesa.fazerPedido(idPedido);
                         System.out.println("Pedido criado com sucesso.");
-                    } catch (ExcecaoPedidoExiste | ExcecaoMesaNaoOcupada e) {
+                    } catch (ExcecaoPedidoExiste e) {
                         System.out.println(e.getMessage());
                     }
                 } else {
