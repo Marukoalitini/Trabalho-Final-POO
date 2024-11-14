@@ -95,20 +95,26 @@ public class MenuUtils {
         return bebidas;
     }
 
-    // Método para carregar ambos os tipos de itens (Pratos e Bebidas) e armazenar em listas
-    public static void carregarMenu() {
+    // Metodo para carregar ambos os tipos de itens (Pratos e Bebidas) e armazenar em listas
+    public static void carregarMenu(List<ItemMenu> menu) {
+        // Carrega pratos e bebidas
         List<Prato> pratos = lerPratosDoCSV("pratos.csv");
         List<Bebida> bebidas = lerBebidasDoCSV("bebidas.csv");
 
-        // Aqui você pode manipular ou exibir os itens, por exemplo:
-        System.out.println("Pratos carregados:");
-        for (Prato prato : pratos) {
-            System.out.println(prato.getNome() + " - " + prato.getPreco() + " | Ingredientes: " + prato.getIngredientes());
-        }
+        // Adiciona os pratos e bebidas na lista de menu fornecida
+        menu.addAll(pratos);
+        menu.addAll(bebidas);
 
-        System.out.println("\nBebidas carregadas:");
-        for (Bebida bebida : bebidas) {
-            System.out.println(bebida.getNome() + " - " + bebida.getPreco() + " | Ingredientes: " + bebida.getIngredientes());
+        // Aqui você pode manipular ou exibir os itens, por exemplo:
+        System.out.println("Itens carregados no menu:");
+        for (ItemMenu item : menu) {
+            if (item instanceof Prato) {
+                Prato prato = (Prato) item;
+                System.out.println("Prato: " + prato.getNome() + " - " + prato.getPreco());
+            } else if (item instanceof Bebida) {
+                Bebida bebida = (Bebida) item;
+                System.out.println("Bebida: " + bebida.getNome() + " - " + bebida.getPreco());
+            }
         }
     }
 }

@@ -32,6 +32,7 @@ public class SistemaRestaurante {
                 case 7 -> exibirGorjetasEGanhos(scanner);
                 case 8 -> {
                     sair();
+                    return;
                 }
                 default -> {
                     System.out.println("Insira uma opção válida.");
@@ -42,6 +43,7 @@ public class SistemaRestaurante {
 
     private static void sair() {
         MenuUtils.salvarItensEmCSV(menu);
+        System.out.println("Saindo...");
     }
 
     private static void areaDeCadastramento(Scanner scanner) {
@@ -474,7 +476,7 @@ public class SistemaRestaurante {
 
     private static void setupMenu() {
         // Pratos
-
+        MenuUtils.carregarMenu(menu);
         // Mesas e Garçons
         mesas.add(new Mesa(1, 4));
         mesas.add(new Mesa(2, 6));
