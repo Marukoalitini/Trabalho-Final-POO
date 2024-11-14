@@ -1,10 +1,10 @@
 enum TipoPrato {
-    Entrada, Principal, Sobremesa;
+    Entrada, Principal, Sobremesa
 }
 
-//  Classe Prato que herda de ItemMenu
+// Classe Prato que herda de ItemMenu
 class Prato extends ItemMenu {
-    private TipoPrato tipoPrato; // Ex: Entrada, Principal, Sobremesa
+    private final TipoPrato tipoPrato; // Ex: Entrada, Principal, Sobremesa
 
     public Prato(String nome, double preco, TipoPrato tipoPrato) {
         super(nome, preco);

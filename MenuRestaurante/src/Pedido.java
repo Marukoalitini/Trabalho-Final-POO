@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Pedido {
-    private int id;
-    private ArrayList<ItemMenu> itens;
+    private final int id;
+    private final ArrayList<ItemMenu> itens;
 
     public Pedido(int id) {
         this.id = id;
@@ -10,8 +12,12 @@ public class Pedido {
     }
 
     public void adicionarItem(ItemMenu item) {
-        itens.add(item);
-        System.out.println("Item " + item.getNome() + " adicionado.");
+        if (item != null) {
+            itens.add(item);
+            System.out.println("Item " + item.getNome() + " adicionado.");
+        } else {
+            System.out.println("Item inválido. Não é possível adicionar 'null' ao pedido.");
+        }
     }
 
     public double calcularValorTotal() {
@@ -22,8 +28,8 @@ public class Pedido {
         return total;
     }
 
-    public ArrayList<ItemMenu> getItens() {
-        return itens;
+    public List<ItemMenu> getItens() {
+        return Collections.unmodifiableList(itens); // Retorna uma lista imutável
     }
 
     public void descreverPedido() {

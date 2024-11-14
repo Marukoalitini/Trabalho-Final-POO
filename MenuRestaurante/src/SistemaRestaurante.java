@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class SistemaRestaurante {
-    private static List<ItemMenu> menu = new ArrayList<>();
-    private static List<Mesa> mesas = new ArrayList<>();
-    private static List<Garcom> garcons = new ArrayList<>();
+    private static final List<ItemMenu> menu = new ArrayList<>();
+    private static final List<Mesa> mesas = new ArrayList<>();
+    private static final List<Garcom> garcons = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -17,7 +17,8 @@ public class SistemaRestaurante {
             System.out.println("4. Fazer Pedido");
             System.out.println("5. Exibir Status da Mesa");
             System.out.println("6. Encerrar Conta e Liberar Mesa");
-            System.out.println("7. Sair");
+            System.out.println("7. Exibir Ganhos do Garçom");
+            System.out.println("8. Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = lerOpcao(scanner, 7);
 
@@ -28,7 +29,8 @@ public class SistemaRestaurante {
                 case 4 -> fazerPedido(scanner);
                 case 5 -> exibirStatusMesa(scanner);
                 case 6 -> encerrarContaLiberarMesa(scanner);
-                case 7 -> {
+                case 7 -> exibirGorjetasEGanhos(scanner);
+                case 8 -> {
                     System.out.println("Encerrando sistema.");
                     return;
                 }
@@ -51,7 +53,9 @@ public class SistemaRestaurante {
                 case 2 -> cadastrarNovaBebida(scanner);
                 case 3 -> cadastrarNovoPrato(scanner);
                 case 4 -> cadastrarNovoGarcom(scanner);
-                case 5 -> { return; }
+                case 5 -> {
+                    return;
+                }
             }
         }
     }
@@ -71,7 +75,9 @@ public class SistemaRestaurante {
                 case 2 -> excluirBebida(scanner);
                 case 3 -> excluirPrato(scanner);
                 case 4 -> excluirGarcom(scanner);
-                case 5 -> { return; }
+                case 5 -> {
+                    return;
+                }
             }
         }
     }
@@ -93,14 +99,14 @@ public class SistemaRestaurante {
 
         double preco = lerNumeroDecimal(scanner, "Preço: ");
 
-        boolean alcoolica = false;
+        boolean alcoolica;
         while (true) {
             System.out.print("A bebida é alcoólica? (1 para Sim / 2 para Não): ");
-            int escolha = scanner.nextInt();
-            if (escolha == 1) {
+            String escolha = scanner.next();
+            if (escolha.equals("1")) {
                 alcoolica = true;
                 break;
-            } else if (escolha == 2) {
+            } else if (escolha.equals("2")) {
                 alcoolica = false;
                 break;
             } else {
@@ -162,58 +168,107 @@ public class SistemaRestaurante {
             int opcao = lerOpcao(scanner, 3);
 
             switch (opcao) {
-                case 1 -> { return Turno.Manhã; }
-                case 2 -> { return Turno.Tarde; }
-                case 3 -> { return Turno.Noite; }
+                case 1 -> {
+                    return Turno.Manha;
+                }
+                case 2 -> {
+                    return Turno.Tarde;
+                }
+                case 3 -> {
+                    return Turno.Noite;
+                }
                 default -> System.out.println("Opção inválida. Escolha entre 1 e 3.");
             }
         }
     }
 
     private static void excluirMesa(Scanner scanner) {
+        if (mesas.isEmpty()) {
+            System.out.println("Não há mesas para excluir.");
+            return;
+        }
         System.out.println("Escolha a mesa para excluir:");
         for (int i = 0; i < mesas.size(); i++)
             System.out.println((i + 1) + ". Mesa " + mesas.get(i).getNumero());
         int escolha = lerOpcao(scanner, mesas.size());
-        mesas.remove(escolha - 1);
-        System.out.println("Mesa excluída.");
+        if (escolha > 0 && escolha <= mesas.size()) {
+            mesas.remove(escolha - 1);
+            System.out.println("Mesa excluída.");
+        } else {
+            System.out.println("Escolha inválida.");
+        }
     }
 
     private static void excluirBebida(Scanner scanner) {
         List<Bebida> bebidas = new ArrayList<>();
+        for (ItemMenu item : menu) {
+            if (item instanceof Bebida) bebidas.add((Bebida) item);
+        }
+        if (bebidas.isEmpty()) {
+            System.out.println("Não há bebidas para excluir.");
+            return;
+        }
         System.out.println("Escolha a bebida para excluir:");
-        for (ItemMenu item : menu) if (item instanceof Bebida) bebidas.add((Bebida) item);
         for (int i = 0; i < bebidas.size(); i++)
             System.out.println((i + 1) + ". " + bebidas.get(i).getNome());
         int escolha = lerOpcao(scanner, bebidas.size());
-        menu.remove(bebidas.get(escolha - 1));
-        System.out.println("Bebida excluída.");
+        if (escolha > 0 && escolha <= bebidas.size()) {
+            menu.remove(bebidas.get(escolha - 1));
+            System.out.println("Bebida excluída.");
+        } else {
+            System.out.println("Escolha inválida.");
+        }
     }
 
     private static void excluirPrato(Scanner scanner) {
         List<Prato> pratos = new ArrayList<>();
+        for (ItemMenu item : menu) {
+            if (item instanceof Prato) pratos.add((Prato) item);
+        }
+        if (pratos.isEmpty()) {
+            System.out.println("Não há pratos para excluir.");
+            return;
+        }
         System.out.println("Escolha o prato para excluir:");
-        for (ItemMenu item : menu) if (item instanceof Prato) pratos.add((Prato) item);
         for (int i = 0; i < pratos.size(); i++)
             System.out.println((i + 1) + ". " + pratos.get(i).getNome());
         int escolha = lerOpcao(scanner, pratos.size());
-        menu.remove(pratos.get(escolha - 1));
-        System.out.println("Prato excluído.");
+        if (escolha > 0 && escolha <= pratos.size()) {
+            menu.remove(pratos.get(escolha - 1));
+            System.out.println("Prato excluído.");
+        } else {
+            System.out.println("Escolha inválida.");
+        }
     }
 
     private static void excluirGarcom(Scanner scanner) {
+        if (garcons.isEmpty()) {
+            System.out.println("Não há garçons para excluir.");
+            return;
+        }
         System.out.println("Escolha o garçom para excluir:");
         for (int i = 0; i < garcons.size(); i++)
             System.out.println((i + 1) + ". " + garcons.get(i).getNome());
         int escolha = lerOpcao(scanner, garcons.size());
-        garcons.remove(escolha - 1);
-        System.out.println("Garçom excluído.");
+        if (escolha > 0 && escolha <= garcons.size()) {
+            garcons.remove(escolha - 1);
+            System.out.println("Garçom excluído.");
+        } else {
+            System.out.println("Escolha inválida.");
+        }
     }
 
     private static void cadastrarCliente(Scanner scanner) {
+        if (mesas.isEmpty()) {
+            System.out.println("Não há mesas disponíveis para associar.");
+            return;
+        }
+        if (garcons.isEmpty()) {
+            System.out.println("Não há garçons disponíveis para associar.");
+            return;
+        }
         System.out.print("Nome do cliente: ");
         String nome = scanner.next();
-
         System.out.println("Escolha uma mesa para associar:");
         for (int i = 0; i < mesas.size(); i++) {
             if (!mesas.get(i).isOcupada()) {
@@ -222,14 +277,12 @@ public class SistemaRestaurante {
         }
         int mesaEscolha = lerOpcao(scanner, mesas.size());
         Mesa mesa = mesas.get(mesaEscolha - 1);
-
         System.out.println("Escolha um garçom:");
         for (int i = 0; i < garcons.size(); i++) {
             System.out.println((i + 1) + ". " + garcons.get(i).getNome());
         }
         int garcomEscolha = lerOpcao(scanner, garcons.size());
         Garcom garcom = garcons.get(garcomEscolha - 1);
-
         mesa.reservar(garcom);
         System.out.println("Cliente " + nome + " associado à mesa " + mesa.getNumero());
     }
@@ -245,45 +298,45 @@ public class SistemaRestaurante {
         if (mesaEscolha == mesas.size() + 1) return;
 
         Mesa mesa = mesas.get(mesaEscolha - 1);
-        if (!mesa.isOcupada()) {
-            System.out.println("Mesa está vazia. Associe um cliente antes de fazer um pedido.");
-            return;
-        }
 
-        while (true) {
-            System.out.println("\nEscolha o tipo de item para adicionar ao pedido:");
-            System.out.println("1. Bebida\n2. Prato\n3. Voltar ao Menu Principal");
-            int tipoItem = lerOpcao(scanner, 3);
+        try {
+            while (true) {
+                System.out.println("\nEscolha o tipo de item para adicionar ao pedido:");
+                System.out.println("1. Bebida\n2. Prato\n3. Voltar ao Menu Principal");
+                int tipoItem = lerOpcao(scanner, 3);
 
-            if (tipoItem == 3) return;
+                if (tipoItem == 3) return;
 
-            List<ItemMenu> itensDisponiveis = new ArrayList<>();
-            if (tipoItem == 1) {
-                System.out.println("\n--- Bebidas Disponíveis ---");
-                for (ItemMenu item : menu) {
-                    if (item instanceof Bebida) {
-                        itensDisponiveis.add(item);
-                        System.out.println(itensDisponiveis.size() + ". " + item.getNome() + " - R$ " + item.getPreco());
+                List<ItemMenu> itensDisponiveis = new ArrayList<>();
+                if (tipoItem == 1) {
+                    System.out.println("\n--- Bebidas Disponíveis ---");
+                    for (ItemMenu item : menu) {
+                        if (item instanceof Bebida) {
+                            itensDisponiveis.add(item);
+                            System.out.println(itensDisponiveis.size() + ". " + item.getNome() + " - R$ " + item.getPreco());
+                        }
+                    }
+                } else if (tipoItem == 2) {
+                    System.out.println("\n--- Pratos Disponíveis ---");
+                    for (ItemMenu item : menu) {
+                        if (item instanceof Prato) {
+                            itensDisponiveis.add(item);
+                            System.out.println(itensDisponiveis.size() + ". " + item.getNome() + " - R$ " + item.getPreco());
+                        }
                     }
                 }
-            } else if (tipoItem == 2) {
-                System.out.println("\n--- Pratos Disponíveis ---");
-                for (ItemMenu item : menu) {
-                    if (item instanceof Prato) {
-                        itensDisponiveis.add(item);
-                        System.out.println(itensDisponiveis.size() + ". " + item.getNome() + " - R$ " + item.getPreco());
-                    }
-                }
+
+                System.out.println((itensDisponiveis.size() + 1) + ". Voltar ao Menu Principal");
+
+                int itemEscolha = lerOpcao(scanner, itensDisponiveis.size() + 1);
+                if (itemEscolha == itensDisponiveis.size() + 1) return;
+
+                ItemMenu itemEscolhido = itensDisponiveis.get(itemEscolha - 1);
+                mesa.pedirItem(itemEscolhido); // Lança a exceção se a mesa não estiver ocupada
+                System.out.println("Item " + itemEscolhido.getNome() + " adicionado ao pedido.");
             }
-
-            System.out.println((itensDisponiveis.size() + 1) + ". Voltar ao Menu Principal");
-
-            int itemEscolha = lerOpcao(scanner, itensDisponiveis.size() + 1);
-            if (itemEscolha == itensDisponiveis.size() + 1) return;
-
-            ItemMenu itemEscolhido = itensDisponiveis.get(itemEscolha - 1);
-            mesa.pedirItem(itemEscolhido);
-            System.out.println("Item " + itemEscolhido.getNome() + " adicionado ao pedido.");
+        } catch (ExcecaoMesaNaoOcupada e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -336,10 +389,44 @@ public class SistemaRestaurante {
             return;
         }
 
+        double gorjeta = 0.0;
+        while (true) {
+            System.out.print("Deseja adicionar gorjeta? (1 para Sim / 2 para Não): ");
+            String escolha = scanner.next();
+            if (escolha.equals("1")) {
+                System.out.print("Digite o valor da gorjeta: ");
+                gorjeta = lerNumeroDecimal(scanner, "");
+                break;
+            } else if (escolha.equals("2")) {
+                break;
+            } else {
+                System.out.println("Entrada inválida. Digite 1 para Sim ou 2 para Não.");
+            }
+        }
+
+        mesa.getGarcomResponsavel().adicionarGorjeta(gorjeta);
+
         System.out.println("\n--- Encerrando Conta da Mesa " + mesa.getNumero() + " ---");
         System.out.println("Total da Conta: R$ " + mesa.getTotalConta());
+        System.out.println("Gorjeta: R$ " + gorjeta);
         mesa.liberar();
         System.out.println("Mesa " + mesa.getNumero() + " foi liberada.");
+    }
+
+    private static void exibirGorjetasEGanhos(Scanner scanner) {
+        if (garcons.isEmpty()) {
+            System.out.println("Não há garçons cadastrados.");
+            return;
+        }
+        System.out.println("Escolha o garçom para ver as gorjetas e o ganho total:");
+        for (int i = 0; i < garcons.size(); i++) {
+            System.out.println((i + 1) + ". " + garcons.get(i).getNome());
+        }
+        int escolha = lerOpcao(scanner, garcons.size());
+        Garcom garcom = garcons.get(escolha - 1);
+        System.out.println("Garçom: " + garcom.getNome());
+        System.out.println("Gorjeta Total: R$ " + garcom.getGorjetaTotal());
+        System.out.println("Ganho Total (Salário + Gorjeta): R$ " + garcom.calcularGanhoTotal());
     }
 
     private static int lerOpcao(Scanner scanner, int maxOpcao) {
@@ -379,9 +466,38 @@ public class SistemaRestaurante {
     }
 
     private static void setupMenu() {
+        // Pratos
         menu.add(new Prato("Niguiri de Salmão", 25.50, TipoPrato.Principal));
+        menu.add(new Prato("Sashimi de Atum", 30.00, TipoPrato.Principal));
+        menu.add(new Prato("Temaki de Salmão", 18.00, TipoPrato.Principal));
+        menu.add(new Prato("Hot Roll", 22.00, TipoPrato.Entrada));
+        menu.add(new Prato("Uramaki Califórnia", 20.00, TipoPrato.Principal));
+        menu.add(new Prato("Yakissoba de Frango", 28.00, TipoPrato.Principal));
+        menu.add(new Prato("Shimeji na Manteiga", 15.00, TipoPrato.Entrada));
+        menu.add(new Prato("Harumaki de Legumes", 12.00, TipoPrato.Entrada));
+        menu.add(new Prato("Tempura de Camarão", 35.00, TipoPrato.Principal));
+        menu.add(new Prato("Tartar de Salmão", 27.00, TipoPrato.Entrada));
+        menu.add(new Prato("Mochi", 10.00, TipoPrato.Sobremesa));
+
+        // Bebidas
         menu.add(new Bebida("Chá Verde", 8.00, false));
+        menu.add(new Bebida("Sake Importado", 45.00, true));
+        menu.add(new Bebida("Sakerinha de Frutas Vermelhas", 18.00, true));
+        menu.add(new Bebida("Água com Gás", 5.00, false));
+        menu.add(new Bebida("Refrigerante", 6.00, false));
+        menu.add(new Bebida("Suco Natural de Laranja", 10.00, false));
+        menu.add(new Bebida("Sapporo (Cerveja Importada)", 20.00, true));
+        menu.add(new Bebida("Coquetel de Uva com Soda", 15.00, false));
+        menu.add(new Bebida("Matcha Latte", 12.00, false));
+        menu.add(new Bebida("Limonada com Gengibre", 9.00, false));
+
+        // Mesas e Garçons
         mesas.add(new Mesa(1, 4));
+        mesas.add(new Mesa(2, 6));
+        mesas.add(new Mesa(3, 2));
+
         garcons.add(new Garcom("Carlos", 1500, Turno.Noite));
+        garcons.add(new Garcom("Maria", 1450, Turno.Tarde));
+        garcons.add(new Garcom("João", 1400, Turno.Manha));
     }
 }
