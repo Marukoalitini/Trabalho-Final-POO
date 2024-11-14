@@ -14,6 +14,9 @@ class Prato extends ItemMenu {
     @Override
     public void descrever() {
         System.out.println("Prato: " + getNome() + " - Tipo: " + tipoPrato + " - Preço: R$ " + getPreco());
-        System.out.println("Ingredientes: " + String.join(", ", getIngredientes()));
+    }
+
+    public String getTipo() {
+        return tipoPrato.toString();
     }
 }

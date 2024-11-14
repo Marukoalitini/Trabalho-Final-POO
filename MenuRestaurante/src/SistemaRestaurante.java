@@ -31,14 +31,17 @@ public class SistemaRestaurante {
                 case 6 -> encerrarContaLiberarMesa(scanner);
                 case 7 -> exibirGorjetasEGanhos(scanner);
                 case 8 -> {
-                    System.out.println("Encerrando sistema.");
-                    return;
+                    sair();
                 }
                 default -> {
                     System.out.println("Insira uma opção válida.");
                 }
             }
         }
+    }
+
+    private static void sair() {
+        MenuUtils.salvarItensEmCSV(menu);
     }
 
     private static void areaDeCadastramento(Scanner scanner) {
@@ -471,29 +474,6 @@ public class SistemaRestaurante {
 
     private static void setupMenu() {
         // Pratos
-        menu.add(new Prato("Niguiri de Salmão", 25.50, TipoPrato.Principal));
-        menu.add(new Prato("Sashimi de Atum", 30.00, TipoPrato.Principal));
-        menu.add(new Prato("Temaki de Salmão", 18.00, TipoPrato.Principal));
-        menu.add(new Prato("Hot Roll", 22.00, TipoPrato.Entrada));
-        menu.add(new Prato("Uramaki Califórnia", 20.00, TipoPrato.Principal));
-        menu.add(new Prato("Yakissoba de Frango", 28.00, TipoPrato.Principal));
-        menu.add(new Prato("Shimeji na Manteiga", 15.00, TipoPrato.Entrada));
-        menu.add(new Prato("Harumaki de Legumes", 12.00, TipoPrato.Entrada));
-        menu.add(new Prato("Tempura de Camarão", 35.00, TipoPrato.Principal));
-        menu.add(new Prato("Tartar de Salmão", 27.00, TipoPrato.Entrada));
-        menu.add(new Prato("Mochi", 10.00, TipoPrato.Sobremesa));
-
-        // Bebidas
-        menu.add(new Bebida("Chá Verde", 8.00, false));
-        menu.add(new Bebida("Sake Importado", 45.00, true));
-        menu.add(new Bebida("Sakerinha de Frutas Vermelhas", 18.00, true));
-        menu.add(new Bebida("Água com Gás", 5.00, false));
-        menu.add(new Bebida("Refrigerante", 6.00, false));
-        menu.add(new Bebida("Suco Natural de Laranja", 10.00, false));
-        menu.add(new Bebida("Sapporo (Cerveja Importada)", 20.00, true));
-        menu.add(new Bebida("Coquetel de Uva com Soda", 15.00, false));
-        menu.add(new Bebida("Matcha Latte", 12.00, false));
-        menu.add(new Bebida("Limonada com Gengibre", 9.00, false));
 
         // Mesas e Garçons
         mesas.add(new Mesa(1, 4));

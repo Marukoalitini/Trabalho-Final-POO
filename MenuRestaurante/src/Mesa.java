@@ -75,6 +75,10 @@ class Mesa {
     }
 
     public void descreverMesa() {
-        
+        String status = ocupada ? "Ocupada" : "Disponível";
+        System.out.println("Mesa " + numero + " - Capacidade: " + capacidade + " - Status: " + status);
+        if (pedido != null) {
+            pedido.descreverPedido();
+        }
     }
 }

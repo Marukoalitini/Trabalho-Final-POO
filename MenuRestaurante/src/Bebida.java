@@ -13,4 +13,8 @@ class Bebida extends ItemMenu {
         System.out.println("Bebida: " + getNome() + " - Tipo: " + tipoBebida + " - Preço: R$ " + getPreco());
         System.out.println("Ingredientes: " + String.join(", ", getIngredientes()));
     }
+
+    public boolean getAlcool() {
+        return alcoolica;
+    }
 }
