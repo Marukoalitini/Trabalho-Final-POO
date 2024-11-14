@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 enum Turno {
-    Manha, Tarde, Noite
+    Manhã, Tarde, Noite
 }
 
 public class Garcom extends Pessoa {

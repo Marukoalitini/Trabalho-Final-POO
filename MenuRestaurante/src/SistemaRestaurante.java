@@ -169,7 +169,7 @@ public class SistemaRestaurante {
 
             switch (opcao) {
                 case 1 -> {
-                    return Turno.Manha;
+                    return Turno.Manhã;
                 }
                 case 2 -> {
                     return Turno.Tarde;
@@ -498,6 +498,6 @@ public class SistemaRestaurante {
 
         garcons.add(new Garcom("Carlos", 1500, Turno.Noite));
         garcons.add(new Garcom("Maria", 1450, Turno.Tarde));
-        garcons.add(new Garcom("João", 1400, Turno.Manha));
+        garcons.add(new Garcom("João", 1400, Turno.Manhã));
     }
 }
