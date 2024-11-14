@@ -1,4 +1,7 @@
-public class Mesa {
+import java.util.ArrayList;
+import java.util.List;
+
+class Mesa {
     private final int numero;
     private final int capacidade;
     private boolean ocupada;
@@ -16,16 +19,8 @@ public class Mesa {
         return numero;
     }
 
-    public int getCapacidade() {
-        return capacidade;
-    }
-
     public boolean isOcupada() {
         return ocupada;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
     }
 
     public void reservar(Garcom garcom) {
@@ -35,41 +30,43 @@ public class Mesa {
 
     public void liberar() {
         ocupada = false;
-        pedido = null; // Limpa o pedido ao liberar a mesa
+        pedido = null;
         garcomResponsavel = null;
     }
+
     public Garcom getGarcomResponsavel() {
         return garcomResponsavel;
     }
 
-    public void fazerPedido(int id) throws ExcecaoPedidoExiste, ExcecaoMesaNaoOcupada {
-        if (!ocupada) {
-            throw new ExcecaoMesaNaoOcupada("Mesa não está ocupada.");
-        }
+    public void fazerPedido(int id) throws ExcecaoPedidoExiste {
         if (pedido != null) {
             throw new ExcecaoPedidoExiste("Pedido já existe para esta mesa.");
         }
         this.pedido = new Pedido(id);
     }
 
-    public void pedirItem(ItemMenu item) {
-        if (ocupada && pedido != null) {
-            pedido.adicionarItem(item);
-        } else {
-            System.out.println("Mesa não está ocupada ou não há pedido.");
+    public void pedirItem(ItemMenu item) throws ExcecaoMesaNaoOcupada {
+        if (!ocupada) {
+            throw new ExcecaoMesaNaoOcupada("Mesa não está ocupada. Não é possível fazer o pedido.");
         }
-    }
-
-    public void descreverMesa() {
-        String status = ocupada ? "Ocupada" : "Disponível";
-        System.out.println("Mesa " + numero + " - Capacidade: " + capacidade + " - Status: " + status);
-        if (pedido != null) {
-            pedido.descreverPedido();
+        if (pedido == null) {
+            this.pedido = new Pedido(1); // Inicializa o pedido com um ID padrão se não existir
         }
+        pedido.adicionarItem(item);
     }
 
 
-    public double getValorTotal() {
+    public double getTotalConta() {
+        if (pedido == null) {
+            return 0.0;
+        }
         return pedido.calcularValorTotal();
+    }
+
+    public List<ItemMenu> getItensPedido() {
+        if (pedido == null) {
+            return new ArrayList<>();
+        }
+        return pedido.getItens();
     }
 }
